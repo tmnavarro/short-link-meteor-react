@@ -28,7 +28,48 @@ Meteor.methods({
     Links.insert({
       _id: shortid.generate(),
       url,
-      userId: this.userId
+      visible: true,
+      userId: this.userId,
+      visitedCount: 0,
+      lastVisitedAt: null
     });
+  },
+  'links.setVisibility'(_id, visible) {
+    if (!this.userId) {
+      return throw Meteor.Error('not-authorized');
+    }
+
+    new SimpleSchema({
+      _id: {
+        type: String,
+        min: 1,
+        label: 'Id Link'
+      },
+      visible: {
+        type: Boolean,
+        label: 'Visible'
+      }
+    }).validate({ _id, visible });
+
+    Links.update(_id, {$set: {visible: visible }});
+  },
+  'links.trackVisit'(_id) {
+    new SimpleSchema({
+      _id: {
+        type: String,
+        min: 1,
+        label: 'Id Link'
+      }
+    }).validate({ _id });
+    console.log('pass');
+    Links.update(_id, {
+      $set: {
+        lastVisitedAt: new Date().getTime()
+      },
+      $inc: {
+        visitedCount: 1
+      }
+    });
+
   }
 });
