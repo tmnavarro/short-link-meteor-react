@@ -1,6 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+import shortid from 'shortid';
 
 export const Links = new Mongo.Collection('links');
 
@@ -16,20 +17,16 @@ Meteor.methods({
       return throw Meteor.Error('not-authorized');
     }
 
-    try {
-      new SimpleSchema({
-        url: {
-          type: String,
-          label: 'Seu link',
-          regEx: SimpleSchema.RegEx.Url
-        }
-      }).validate({ url });
-    } catch(e) {
-      //console.log(e);
-    }
-
+    new SimpleSchema({
+      url: {
+        type: String,
+        label: 'Your Link',
+        regEx: SimpleSchema.RegEx.Url
+      }
+    }).validate({ url });
 
     Links.insert({
+      _id: shortid.generate(),
       url,
       userId: this.userId
     });
