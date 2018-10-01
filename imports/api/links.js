@@ -34,6 +34,20 @@ Meteor.methods({
       lastVisitedAt: null
     });
   },
+  'links.remove'(_id) {
+    if (!this.userId) {
+      return throw Meteor.Error('not-authorized');
+    }
+    new SimpleSchema({
+      _id: {
+        type: String,
+        label: 'Id',
+      }
+    }).validate({ _id });
+
+    Links.remove(_id);
+
+  },
   'links.setVisibility'(_id, visible) {
     if (!this.userId) {
       return throw Meteor.Error('not-authorized');
