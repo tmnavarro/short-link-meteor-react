@@ -29,15 +29,17 @@ export default class Signup extends Component {
   }
   render() {
     return (
-      <div>
-        <h1>Crie uma conta</h1>
-        {this.state.error ? <p>{this.state.error}</p> : undefined}
-        <form onSubmit={this.onSubmit.bind(this)} noValidate>
-          <input type="email" ref="email" name="email" placeholder="Email"/>
-          <input type="password" ref="password" namep="password" placeholder="Senha"/>
-          <button>Criar conta</button>
-        </form>
-        <Link to="/">Já possuí uma conta?</Link>
+      <div className="boxed-view">
+        <div className="boxed-view__box">
+          <h1>Crie uma conta</h1>
+          {this.state.error ? <p>{this.state.error}</p> : undefined}
+          <form onSubmit={this.onSubmit.bind(this)} noValidate className="boxed-view__form">
+            <input type="email" ref="email" name="email" placeholder="Email"/>
+            <input type="password" ref="password" namep="password" placeholder="Senha"/>
+            <button className="button">Criar conta</button>
+          </form>
+          <Link to="/">Já possuí uma conta?</Link>
+        </div>
       </div>
     );
   }

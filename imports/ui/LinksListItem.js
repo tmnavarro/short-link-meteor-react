@@ -32,22 +32,22 @@ export default class LinksListItem extends Component {
     if (typeof this.props.lastVisitedAt === 'number') {
       visitedMessage = `(${moment(this.props.lastVisitedAt).fromNow()})`;
     }
-    return <p>{this.props.visitedCount} {visitMessage} {visitedMessage}</p>;
+    return <p className="item__message">{this.props.visitedCount} {visitMessage} {visitedMessage}</p>;
   }
   render() {
     return (
-      <div>
-        <h3>{this.props.url}</h3>
-        <a target="_blank" href={this.props.shortUrl}>Visit<br/></a>
-        <span>{!this.props.visible}</span>
+      <div className="item">
+        <h2>{this.props.url}</h2>
+
         {this.renderStats()}
-        <button ref="copy" data-clipboard-text={this.props.shortUrl}>
+        <a className="button button--pill" target="_blank" href={this.props.shortUrl}>Visit</a>
+        <button className="button button--pill" ref="copy" data-clipboard-text={this.props.shortUrl}>
           {this.state.justCopied ? 'Copied' : 'Copy'}
         </button>
-        <button onClick={() => Meteor.call('links.setVisibility', this.props._id, !this.props.visible) }>
+        <button className="button button--pill" onClick={() => Meteor.call('links.setVisibility', this.props._id, !this.props.visible) }>
           {this.props.visible ? 'Hide' : 'Unhide'}
         </button>
-        <button onClick={() => Meteor.call('links.remove', this.props._id)}>Delete</button>
+        <button className="button button--pill" onClick={() => Meteor.call('links.remove', this.props._id)}>Delete</button>
       </div>
     )
   }
